@@ -2,13 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 
-/* HERO VIDEO
+/* HERO VIDEO (video starts after window load)
    - Poster <img> is in the server-rendered HTML, so the hero paints immediately.
    - A tiny inline script (below) starts the right video BEFORE React hydrates.
    - Mobile uses a 30 fps re-encode; desktop uses dhero.mp4.
    - Playback pauses when the hero is off-screen or the tab is hidden.
    - Reduced-motion / Data Saver / 2G users get the poster only. */
-const EARLY = "(function(){try{var v=document.getElementById('hero-vid');if(!v)return;var c=navigator.connection||navigator.webkitConnection||navigator.mozConnection;if(c&&(c.saveData||/^(slow-2g|2g)$/.test(c.effectiveType||'')))return;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;v.muted=true;v.src=window.matchMedia('(min-width: 768px)').matches?'/videos/dhero.mp4':'/videos/mhero-30.mp4';}catch(e){}})();";
+const EARLY = "(function(){try{var v=document.getElementById('hero-vid');if(!v)return;v.muted=true;v.poster=window.matchMedia('(min-width: 768px)').matches?'/images/hero-poster-desktop.jpg':'/images/hero-poster-mobile.jpg';}catch(e){}})();";
 
 export default function Hero() {
   const vidRef = useRef(null);
@@ -19,21 +19,43 @@ export default function Hero() {
     const section = sectionRef.current;
     if (!vid || !section) return;
     vid.muted = true;
-    if (!vid.getAttribute('src')) return; // poster-only mode (no early src was set)
+
+    // Poster-only for Data Saver / 2G / reduced motion
+    const c = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+    if (c && (c.saveData || /^(slow-2g|2g)$/.test(c.effectiveType || ''))) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let inView = true;
+    let io = null;
+    let timer = 0;
+    let cancelled = false;
     const tryPlay = () => { const p = vid.play(); if (p && p.catch) p.catch(() => {}); };
     const sync = () => { if (inView && !document.hidden) tryPlay(); else vid.pause(); };
 
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) inView = e.isIntersecting;
+    // Start the video after window load, so its ~1MB download never competes with
+    // the poster / JS / CSS that decide LCP.
+    const start = () => {
+      if (cancelled) return;
+      vid.src = window.matchMedia('(min-width: 768px)').matches ? '/videos/dhero.mp4' : '/videos/mhero-30.mp4';
+      io = new IntersectionObserver((entries) => {
+        for (const e of entries) inView = e.isIntersecting;
+        sync();
+      }, { threshold: 0.1 });
+      io.observe(section);
+      document.addEventListener('visibilitychange', sync);
       sync();
-    }, { threshold: 0.1 });
-    io.observe(section);
-    document.addEventListener('visibilitychange', sync);
-    sync();
+    };
+    const schedule = () => { timer = window.setTimeout(start, 300); };
+    if (document.readyState === 'complete') schedule();
+    else window.addEventListener('load', schedule, { once: true });
 
-    return () => { io.disconnect(); document.removeEventListener('visibilitychange', sync); };
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      window.removeEventListener('load', schedule);
+      if (io) io.disconnect();
+      document.removeEventListener('visibilitychange', sync);
+    };
   }, []);
 
   return (
@@ -50,7 +72,7 @@ export default function Hero() {
         muted
         playsInline
         webkit-playsinline=""
-        preload="auto"
+        preload="none"
         disablePictureInPicture
         disableRemotePlayback
         aria-hidden="true"

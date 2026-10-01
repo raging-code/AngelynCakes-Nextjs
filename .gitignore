@@ -6,3 +6,4 @@ out
 .patch-backup/
 .patch-backup-responsive/
 public/videos/*.bak*
+.perf-backup/
