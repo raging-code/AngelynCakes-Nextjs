@@ -21,11 +21,6 @@ const OG_IMAGE = 'https://res.cloudinary.com/dgbwapcgt/image/upload/v1778334726/
 const FONTS_URL =
   'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap';
 
-// Same policy as the original <meta http-equiv> tag. Only applied in production:
-// `next dev` needs 'unsafe-eval' for hot reloading, which this policy forbids.
-const CSP =
-  "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-src https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self';";
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -45,9 +40,7 @@ export default function RootLayout({ children }) {
         {/* Security headers */}
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-        {process.env.NODE_ENV === 'production' && (
-          <meta httpEquiv="Content-Security-Policy" content={CSP} />
-        )}
+        {/* CSP is sent as an HTTP header: scripts/csp-hash.mjs writes it to out/_headers on postbuild. */}
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
