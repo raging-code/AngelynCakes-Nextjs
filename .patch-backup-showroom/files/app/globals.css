@@ -129,38 +129,3 @@
   filter:invert(92%) hue-rotate(180deg) sepia(.55) saturate(1.25) brightness(.88) contrast(.95);
 }
 @media (max-width:600px){.map-wrap.map-dark{min-height:380px;--crop:125px}}
-
-/* ────────── Showroom widget (patch-showroom-widget) ────────── */
-.sr-card{background:#fff}
-.sr-body{padding:2rem 1.25rem 1.75rem;text-align:center}
-.sr-street{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;line-height:1.2;color:var(--text)}
-.sr-city{margin-top:.3rem;font-size:.92rem;color:var(--text-mid)}
-.sr-hours{margin-top:.65rem;font-size:.9rem;color:var(--text-mid)}
-.sr-hours strong{font-weight:600;color:var(--text)}
-.sr-rule{display:block;width:36px;height:1px;background:var(--gold);margin:1.4rem auto}
-.sr-appt{font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;color:var(--accent)}
-.sr-note{margin:.5rem auto 1.4rem;max-width:270px;font-size:.88rem;line-height:1.6;color:var(--text-mid)}
-.sr-actions{display:flex;flex-direction:column;gap:.6rem;max-width:380px;margin:0 auto 1.3rem}
-.sr-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:0 1.2rem;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border-radius:6px;transition:background .2s,color .2s,transform .15s}
-.sr-btn svg{width:15px;height:15px;flex-shrink:0}
-.sr-btn-outline{color:var(--accent);background:#fff;border:1.5px solid var(--border-h)}
-.sr-btn-outline:hover{background:rgba(201,92,114,.07)}
-.sr-btn-viber{color:#fff;background:var(--viber);border:1.5px solid var(--viber)}
-.sr-btn-viber:hover{background:var(--viber-h);border-color:var(--viber-h)}
-.sr-contact{display:flex;flex-direction:column;align-items:center;gap:.35rem}
-.sr-contact a{text-decoration:none;word-break:break-word}
-.sr-phone{font-size:.95rem;font-weight:500;color:var(--text)}
-.sr-email{font-size:.85rem;color:var(--text-mid)}
-.sr-contact a:hover{color:var(--accent)}
-.showroom-widget .map-wrap.map-dark{border:0;border-top:1px solid var(--border);border-radius:0;height:320px;min-height:320px}
-.showroom-widget .map-wrap.map-dark iframe{height:calc(100% + var(--crop) * 2)}
-@media(min-width:640px){
-  .sr-actions{flex-direction:row;justify-content:center;max-width:none}
-  .sr-btn{padding:0 1.7rem}
-  .sr-contact{flex-direction:row;justify-content:center;gap:1.75rem}
-}
-@media(min-width:768px){
-  .sr-body{padding:3rem 2rem 2.5rem}
-  .sr-street{font-size:2rem}
-  .showroom-widget .map-wrap.map-dark{height:420px;min-height:420px}
-}

@@ -286,4 +286,4 @@ export const reviews = [
   }
 ];
 
-export const MAP_SRC = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d811.9163386976629!2d120.99586129069267!3d14.53359737428597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c950e0984ef9%3A0x7d6c1a17da98837c!2sAngelyn%20Cake!5e0!3m2!1sen!2sph!4v1790836708801!5m2!1sen!2sph";
+export const MAP_SRC = "https://www.google.com/maps?q=60+Russel+Ave,+Brgy.+San+Rafael,+Pasay+City,+Metro+Manila&z=17&output=embed";
