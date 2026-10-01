@@ -16,7 +16,7 @@ export default function Nav() {
               <span className="logo-box-fallback">A</span>
             ) : (
               <img
-                src="/images/logo.webp"
+                src="/images/logo-sm.webp"
                 alt="Angelyn's Cakes logo"
                 decoding="async"
                 loading="eager"

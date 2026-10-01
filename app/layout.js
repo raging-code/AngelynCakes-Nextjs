@@ -8,7 +8,7 @@ export const metadata = {
   keywords:
     "custom cakes Manila, wedding cakes, debut cakes, bespoke cakes, cake delivery Makati, Angelyn's Cakes",
   alternates: { canonical: 'https://www.angelyncakes.com/' },
-  icons: { icon: [{ url: '/images/icon.png', type: 'image/png' }] },
+  icons: { icon: [{ url: '/images/icon-sm.png', type: 'image/png' }] },
 };
 
 export const viewport = {
@@ -61,8 +61,6 @@ export default function RootLayout({ children }) {
             as early as possible, without fetching the other (unused) variant. */}
         <link rel="preload" as="image" href="/images/hero-poster-mobile.jpg" media="(max-width: 767px)" fetchPriority="high" />
         <link rel="preload" as="image" href="/images/hero-poster-desktop.jpg" media="(min-width: 768px)" fetchPriority="high" />
-        <link rel="preload" as="video" type="video/mp4" href="/videos/mhero-opt.mp4" media="(max-width: 767px)" />
-        <link rel="preload" as="video" type="video/mp4" href="/videos/dhero.mp4" media="(min-width: 768px)" />
 
         {/* Google Fonts (non-blocking): print media until loaded, then switch to all */}
         <link id="gfonts" href={FONTS_URL} rel="stylesheet" media="print" suppressHydrationWarning />

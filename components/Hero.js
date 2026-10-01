@@ -2,19 +2,14 @@
 
 import { useEffect, useRef } from 'react';
 
-/* HERO VIDEO — heavily optimised for mobile smoothness.
-   - Picks exactly one source for the real viewport (no double-fetching).
-   - Baseline/Main-profile re-encodes so low/mid-end phones can hardware
-     decode it instead of falling back to slow software decode.
-   - Pauses playback via IntersectionObserver the instant the hero scrolls
-     off-screen, so the decoder stops competing with scroll/paint elsewhere
-     on the page (this was the main cause of "laggy" scrolling after the
-     hero — the video kept decoding forever in the background).
-   - Skips autoplay entirely for prefers-reduced-motion and Data Saver /
-     slow-network users; they get the static poster only.
-   - No forced compositor layer (will-change/translateZ) on a full-bleed
-     absolutely-positioned video — that hack forces an expensive dedicated
-     layer the size of the screen and made weak GPUs worse, not better. */
+/* HERO VIDEO
+   - Poster <img> is in the server-rendered HTML, so the hero paints immediately.
+   - A tiny inline script (below) starts the right video BEFORE React hydrates.
+   - Mobile uses a 30 fps re-encode; desktop uses dhero.mp4.
+   - Playback pauses when the hero is off-screen or the tab is hidden.
+   - Reduced-motion / Data Saver / 2G users get the poster only. */
+const EARLY = "(function(){try{var v=document.getElementById('hero-vid');if(!v)return;var c=navigator.connection||navigator.webkitConnection||navigator.mozConnection;if(c&&(c.saveData||/^(slow-2g|2g)$/.test(c.effectiveType||'')))return;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;v.muted=true;v.src=window.matchMedia('(min-width: 768px)').matches?'/videos/dhero.mp4':'/videos/mhero-30.mp4';}catch(e){}})();";
+
 export default function Hero() {
   const vidRef = useRef(null);
   const sectionRef = useRef(null);
@@ -23,86 +18,45 @@ export default function Hero() {
     const vid = vidRef.current;
     const section = sectionRef.current;
     if (!vid || !section) return;
+    vid.muted = true;
+    if (!vid.getAttribute('src')) return; // poster-only mode (no early src was set)
 
-    const isMobile = window.innerWidth < 768;
-    const src = isMobile ? '/videos/mhero-opt.mp4' : '/videos/dhero.mp4';
-    const poster = isMobile ? '/images/hero-poster-mobile.jpg' : '/images/hero-poster-desktop.jpg';
-    vid.poster = poster;
-    vid.muted = true; // React doesn't reliably render the muted attribute; autoplay needs it
+    let inView = true;
+    const tryPlay = () => { const p = vid.play(); if (p && p.catch) p.catch(() => {}); };
+    const sync = () => { if (inView && !document.hidden) tryPlay(); else vid.pause(); };
 
-    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
-    const saveData = !!(conn && (conn.saveData || /^(slow-2g|2g)$/.test(conn.effectiveType || '')));
-
-    // Users who prefer less motion, or are explicitly saving data, get the
-    // poster only — no video is ever requested.
-    if (reduceMotion || saveData) return;
-
-    let sourceEl = null;
-    let attached = false;
-    let destroyed = false;
-
-    function attachSource() {
-      if (attached || destroyed) return;
-      attached = true;
-      sourceEl = document.createElement('source');
-      sourceEl.src = src;
-      sourceEl.type = 'video/mp4';
-      vid.appendChild(sourceEl);
-      vid.load();
-    }
-
-    function tryPlay() {
-      const p = vid.play();
-      if (p && typeof p.then === 'function') p.catch(() => {});
-    }
-
-    // Only decode/play while the hero is actually visible. As soon as it
-    // scrolls out of view, pause — this frees the decoder for the rest of
-    // the page (gallery scrolling, lightboxes, etc. all feel smoother).
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            attachSource();
-            tryPlay();
-          } else {
-            vid.pause();
-          }
-        }
-      },
-      { threshold: 0.1 }
-    );
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) inView = e.isIntersecting;
+      sync();
+    }, { threshold: 0.1 });
     io.observe(section);
+    document.addEventListener('visibilitychange', sync);
+    sync();
 
-    const onVisibility = () => {
-      if (!document.hidden && section.getBoundingClientRect().top < window.innerHeight) tryPlay();
-    };
-    document.addEventListener('visibilitychange', onVisibility);
-
-    return () => {
-      destroyed = true;
-      io.disconnect();
-      document.removeEventListener('visibilitychange', onVisibility);
-      if (sourceEl && sourceEl.parentNode === vid) vid.removeChild(sourceEl);
-    };
+    return () => { io.disconnect(); document.removeEventListener('visibilitychange', sync); };
   }, []);
 
   return (
     <section className="hero" aria-label="Hero section" ref={sectionRef}>
+      <picture>
+        <source media="(min-width: 768px)" srcSet="/images/hero-poster-desktop.jpg" />
+        <img className="hero-poster" src="/images/hero-poster-mobile.jpg" alt="" aria-hidden="true" fetchPriority="high" decoding="async" />
+      </picture>
       <video
         id="hero-vid"
         ref={vidRef}
+        autoPlay
         loop
         muted
         playsInline
         webkit-playsinline=""
-        preload="metadata"
+        preload="auto"
         disablePictureInPicture
         disableRemotePlayback
-        style={{ backgroundColor: '#2E1510' }}
         aria-hidden="true"
+        suppressHydrationWarning
       ></video>
+      <script dangerouslySetInnerHTML={{ __html: EARLY }} />
       <div className="hero-overlay"></div>
       <div className="hero-content">
         <h1 className="hero-headline">Cakes that<br/><em>command</em><br/>attention.</h1>

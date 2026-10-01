@@ -3,4 +3,10 @@
 
 /images/*
   X-Frame-Options: DENY
-  Content-Type: image/jpeg
+  Cache-Control: public, max-age=2592000
+
+/videos/*
+  Cache-Control: public, max-age=2592000
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable

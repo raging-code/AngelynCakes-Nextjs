@@ -5,7 +5,7 @@ export default function About() {
         <div className="section-inner">
           <div className="about-layout">
             <div className="about-photo-col">
-              <img src="/images/founder.webp" alt="Angelyn, founder and head baker" className="founder-photo" loading="lazy" decoding="async"/>
+              <img src="/images/founder-sm.webp" alt="Angelyn, founder and head baker" className="founder-photo" loading="lazy" decoding="async"/>
             </div>
             <div className="about-text-col">
               <span className="section-eyebrow">About Us</span>

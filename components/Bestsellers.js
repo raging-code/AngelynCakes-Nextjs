@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { bestsellers } from '../lib/data';
 
+const thumb = (s) => s.replace(/\/([^/]+)$/, '/thumbs/$1');
+
 function CakeCard({ src, alt }) {
   const [tapped, setTapped] = useState(false);
   return (
@@ -11,7 +13,7 @@ function CakeCard({ src, alt }) {
       onTouchStart={() => setTapped(true)}
       onTouchEnd={() => setTimeout(() => setTapped(false), 600)}
     >
-      <img src={src} alt={alt} loading="lazy" decoding="async" />
+      <img src={thumb(src)} alt={alt} loading="lazy" decoding="async" />
       <div className="cake-name-bar"><p>{alt}</p></div>
     </div>
   );

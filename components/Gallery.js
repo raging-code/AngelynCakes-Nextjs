@@ -6,6 +6,7 @@ import { portrait, tall } from '../lib/data';
 
 const MAX_VIDEOS = 19;
 const MOBILE_LIMIT = 4;
+const thumb = (s) => s.replace(/\/([^/]+)$/, '/thumbs/$1');
 
 /* One "Our Works" photo grid with its Show all / Show less buttons */
 function PhotoGrid({ items, gridClass, imgClass, seriesKey, seriesLabel, mobile, expanded, onToggle, onOpen }) {
@@ -31,9 +32,9 @@ function PhotoGrid({ items, gridClass, imgClass, seriesKey, seriesLabel, mobile,
           >
             <img
               className={imgClass}
-              src={it.src}
+              src={thumb(it.src)}
               alt={it.name}
-              loading={i < 4 ? 'eager' : 'lazy'}
+              loading="lazy"
               decoding="async"
               sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
             />
@@ -71,7 +72,6 @@ export default function Gallery() {
   const playerRef = useRef(null);
   const photoTouchX = useRef(0);
   const videoTouchX = useRef(0);
-  const stripTouchX = useRef(0);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -190,11 +190,6 @@ export default function Gallery() {
               className="video-horizontal-scroll"
               id="video-scroll-container"
               ref={containerRef}
-              onTouchStart={(e) => { stripTouchX.current = e.changedTouches[0].screenX; }}
-              onTouchEnd={(e) => {
-                const diff = e.changedTouches[0].screenX - stripTouchX.current;
-                if (Math.abs(diff) > 50) scrollStrip(diff < 0 ? 1 : -1);
-              }}
             >
               <div className="video-scroll-track" id="video-track" ref={trackRef}>
                 {Array.from({ length: MAX_VIDEOS }, (_, i) => (
@@ -210,7 +205,7 @@ export default function Gallery() {
                       alt={'Cake Preview ' + (i + 1)}
                       width={252}
                       height={480}
-                      loading={i < 3 ? 'eager' : 'lazy'}
+                      loading="lazy"
                       decoding="async"
                       sizes="200px"
                     />
