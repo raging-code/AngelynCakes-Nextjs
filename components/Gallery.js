@@ -28,6 +28,12 @@ function PhotoGrid({ items, gridClass, imgClass, seriesKey, seriesLabel, mobile,
             data-name={it.name}
             data-series={seriesLabel}
             key={it.name}
+            role="button"
+            tabIndex={0}
+            aria-label={'View ' + it.name + ' full screen'}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(items, i, seriesLabel); }
+            }}
             onClick={() => onOpen(items, i, seriesLabel)}
           >
             <img
@@ -75,20 +81,19 @@ export default function Gallery() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  /* ─── Show more / show less: mobile detection ─── */
+  /* ─── Show more / show less: mobile detection ───
+     matchMedia fires only when the 767px breakpoint is really crossed. A window
+     "resize" listener also fires when a phone's address bar hides while
+     scrolling, which used to collapse a grid the visitor had just expanded. */
   useEffect(() => {
-    const update = () => setMobile(window.innerWidth <= 767);
-    update();
-    let t;
-    const onResize = () => {
-      clearTimeout(t);
-      t = setTimeout(() => {
-        update();
-        setExpanded({ portrait: false, tall: false });
-      }, 150);
+    const mq = window.matchMedia('(max-width: 767px)');
+    setMobile(mq.matches);
+    const onChange = (e) => {
+      setMobile(e.matches);
+      setExpanded({ portrait: false, tall: false });
     };
-    window.addEventListener('resize', onResize, { passive: true });
-    return () => { window.removeEventListener('resize', onResize); clearTimeout(t); };
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
   }, []);
 
   const toggleExpanded = (key, value) => setExpanded((s) => ({ ...s, [key]: value }));
@@ -198,6 +203,12 @@ export default function Gallery() {
                     key={i}
                     data-video-src-mp4={'/videos/v' + (i + 1) + '.mp4'}
                     data-name={'Cake Preview ' + (i + 1)}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={'Play Cake Preview ' + (i + 1)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openVideo(i); }
+                    }}
                     onClick={() => openVideo(i)}
                   >
                     <img

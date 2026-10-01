@@ -192,3 +192,89 @@
 /* >>> angelyn:best-lightbox */
 .cake-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 /* <<< angelyn:best-lightbox */
+
+/* >>> angelyn:responsive-perf-v1 */
+/* ── base ── */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+/* ── focus rings (keyboard users) ── */
+.hamburger:focus-visible,.nav-link:focus-visible,.mobile-link:focus-visible,
+.btn-cta:focus-visible,.btn-ghost:focus-visible,.sr-btn:focus-visible,
+.footer-social:focus-visible,.gcard:focus-visible,.vcard:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.tv5-play-overlay:focus-visible{outline:3px solid #fff;outline-offset:-6px}
+
+/* ── NAV ──
+   The desktop row (logo + 4 links + CTA) needs ~1070px. It used to switch on at
+   768px, so the CTA was clipped on tablets. Hamburger now covers 768–1139px. */
+@media (min-width:768px) and (max-width:1139px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+}
+@media (min-width:1140px) and (max-width:1279px){.nav-links{gap:1.6rem}}
+
+/* Mobile menu: scrolls on short screens, unfocusable while closed */
+.mobile-menu{visibility:hidden;transition:max-height .38s cubic-bezier(.4,0,.2,1),visibility 0s linear .38s}
+.mobile-menu.open{visibility:visible;transition-delay:0s;overscroll-behavior:contain;overflow-y:auto;max-height:min(420px,calc(100svh - 64px))}
+@media (min-width:768px){.mobile-menu.open{max-height:min(420px,calc(100svh - 80px))}}
+
+/* Hamburger → X */
+.hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.hamburger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── HERO ── */
+@media (max-width:479px){
+  .hero-btns .btn-cta,.hero-btns .btn-ghost{flex:1 1 100%}
+}
+/* big monitors: don't let a 16:9 hero grow taller than the window */
+@media (min-width:768px) and (min-height:600px){
+  .hero{max-height:100vh}
+  .hero{max-height:100svh}
+}
+/* landscape phones: fill the screen and keep the headline inside it */
+@media (max-height:500px) and (orientation:landscape){
+  .hero{aspect-ratio:auto;max-height:none;min-height:100vh;min-height:100svh;align-items:center}
+  .hero-content{padding-bottom:1rem}
+  .hero-headline{font-size:clamp(2rem,11vh,3.4rem);margin-bottom:1rem}
+}
+
+/* ── TICKER: track is now 4 repeats long (see Ticker.js); keep the original pace ── */
+.ticker-track{animation-duration:48s}
+
+/* ── content-visibility: remember the real height once a section has rendered ── */
+#gallery,#featured-tv5,#showroom,#reviews,#about,#contact{contain-intrinsic-size:auto none auto 1200px}
+
+/* ── LIGHTBOXES: size against the visible viewport ── */
+.lb-img-wrap{max-height:none}
+.lb-img-wrap img{max-height:calc(100vh - 9rem);max-height:calc(100svh - 9rem)}
+.video-lightbox video{max-height:calc(100vh - 11rem);max-height:calc(100svh - 11rem)}
+
+/* ── VIDEO STRIP ── */
+.video-horizontal-scroll{scroll-snap-type:x proximity;overscroll-behavior-x:contain}
+.vcard{scroll-snap-align:start}
+
+/* ── ABOUT ── */
+.about-text-col p{max-width:62ch}
+@media (min-width:1024px){.founder-photo{max-width:300px}}
+
+/* ── CONTACT / FOOTER: let long strings wrap instead of being cut off at 320px ── */
+.contact-row{min-width:0}
+.contact-row>div:last-child{min-width:0}
+.contact-row a,.contact-row p{overflow-wrap:anywhere;min-width:0}
+.footer-inner a,.footer-inner p{overflow-wrap:anywhere}
+
+/* ── SHOWROOM: info | map side by side on desktop ── */
+@media (min-width:900px){
+  .sr-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);align-items:stretch}
+  .sr-card .sr-body{display:flex;flex-direction:column;justify-content:center;padding:3rem 2.5rem}
+  .showroom-widget .map-wrap.map-dark{height:auto;min-height:480px;align-self:stretch;border-top:0;border-left:1px solid var(--border)}
+}
+
+/* ── FOOTER: two columns from 768px (brand + socials | contact details) ── */
+@media (min-width:768px){
+  .footer-inner>div:first-child{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,auto);column-gap:3rem !important;row-gap:1.5rem !important;align-items:start !important}
+  .footer-inner>div:first-child>div:nth-child(1){grid-column:1;grid-row:1}
+  .footer-inner>div:first-child>div:nth-child(2){grid-column:1;grid-row:2}
+  .footer-inner>div:first-child>div:nth-child(3){grid-column:2;grid-row:1 / span 2;max-width:34rem}
+}
+/* <<< angelyn:responsive-perf-v1 */

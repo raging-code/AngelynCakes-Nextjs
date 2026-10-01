@@ -15,6 +15,20 @@ export default function Nav() {
     if (open) setHidden(false);
   }, [open]);
 
+  // Esc closes the menu; growing past the hamburger breakpoint closes it too
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const mq = window.matchMedia('(min-width: 1140px)');
+    const onMq = (e) => { if (e.matches) setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    mq.addEventListener('change', onMq);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      mq.removeEventListener('change', onMq);
+    };
+  }, [open]);
+
   // hide on scroll down, show on scroll up (8px dead-zone avoids jitter)
   useEffect(() => {
     let lastY = window.scrollY;
@@ -70,7 +84,8 @@ export default function Nav() {
         <button
           className="hamburger"
           id="hamburger"
-          aria-label="Open menu"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-controls="mobile-menu"
           aria-expanded={open ? 'true' : 'false'}
           onClick={() => setOpen((o) => !o)}
         >
