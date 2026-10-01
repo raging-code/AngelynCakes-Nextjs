@@ -61,7 +61,7 @@ export default function Hero() {
       <div className="hero-content">
         <h1 className="hero-headline">Cakes that<br/><em>command</em><br/>attention.</h1>
         <div className="hero-btns">
-          <a href="#showroom" className="btn-cta" style={{ fontSize: '0.82rem', padding: '15px 30px' }}>Book a Consultation</a>
+          <a href="#contact" className="btn-cta" style={{ fontSize: '0.82rem', padding: '15px 30px' }}>Book a Consultation</a>
           <a
             href="#bestsellers"
             className="btn-ghost"

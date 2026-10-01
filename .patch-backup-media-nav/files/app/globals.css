@@ -164,25 +164,3 @@
   .sr-street{font-size:2rem}
   .showroom-widget .map-wrap.map-dark{height:420px;min-height:420px}
 }
-
-/* ────────── Media buttons, nav slide, contact (patch-media-nav) ────────── */
-/* Navbar: slides up when hidden */
-.nav-root{transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform}
-.nav-root.nav-hidden{transform:translateY(-100%);box-shadow:none}
-
-/* Photo + video buttons: brand pink, white ring */
-.lb-close,.lb-nav,.vlb-btn,.scroll-btn,.play-icon-overlay,.tv5-play-btn{background:var(--accent);color:#fff;border:2px solid #fff;box-shadow:0 2px 12px rgba(0,0,0,.4);font-family:sans-serif;line-height:1}
-.lb-close,.lb-nav,.vlb-btn{width:46px;height:46px;font-size:1.35rem}
-.lb-nav{font-size:1.7rem;padding-bottom:3px}
-.vlb-close{background:var(--accent)}
-.lb-close:hover,.lb-nav:hover,.vlb-btn:hover,.vlb-close:hover{background:var(--accent-h)}
-.lb-nav:hover{transform:translateY(-50%) scale(1.06)}
-.scroll-btn{width:42px;height:42px;font-size:1.5rem;box-shadow:0 3px 12px rgba(201,92,114,.35)}
-.scroll-btn:hover{background:var(--accent-h)}
-.play-icon-overlay{width:46px;height:46px;background:var(--accent)}
-.tv5-play-btn{border-width:3px;box-shadow:0 8px 28px rgba(0,0,0,.45)}
-.tv5-play-overlay:hover .tv5-play-btn{background:var(--accent-h);box-shadow:0 12px 36px rgba(0,0,0,.5)}
-.lb-close:focus-visible,.lb-nav:focus-visible,.vlb-btn:focus-visible,.scroll-btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
-
-/* Contact: the form is gone, so the info column takes the full width */
-@media (min-width: 768px) { .contact-layout { grid-template-columns: 1fr; } }

@@ -16,6 +16,19 @@ export default function Contact() {
                 <div className="contact-row"><div className="contact-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div><a href="https://www.facebook.com/angelynscakes" target="_blank" rel="noopener" style={{ "fontSize": "0.9rem", "color": "var(--text-mid)", "textDecoration": "none" }}>Angelyn's Cakes on Facebook</a></div>
               </div>
             </div>
+            <div className="form-wrap">
+              <p style={{ "fontSize": "0.68rem", "fontWeight": "700", "letterSpacing": "0.3em", "textTransform": "uppercase", "color": "var(--accent)", "marginBottom": "1.75rem" }}>Consultation Request</p>
+              <div className="viber-banner">
+                <div className="viber-banner-text"><p className="vb-msg">For a quicker reply, we encourage you to reach us directly on <strong>Viber</strong> — we're usually online!</p></div>
+                <a href="viber://chat?number=%2B639178152578" className="btn-viber-main"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.003 0C5.376 0 0 5.376 0 12.003c0 2.407.715 4.647 1.944 6.524L.671 23.329l4.937-1.577A11.963 11.963 0 0012.003 24C18.627 24 24 18.624 24 12.003 24 5.376 18.627 0 12.003 0zm5.849 16.604c-.236.658-1.38 1.257-1.912 1.338-.488.073-1.107.105-1.787-.112a16.66 16.66 0 01-1.617-.598c-2.847-1.226-4.706-4.064-4.849-4.252-.14-.19-1.145-1.52-1.145-2.903s.666-2.002.965-2.326c.3-.325.65-.406.867-.406.218 0 .434.002.624.01.203.01.473-.077.74.566.278.657.944 2.303.944 2.466 0 .164-.081.366-.163.53-.082.162-.244.406-.407.61-.162.2-.34.415-.18.704.16.29.712 1.173 1.53 1.9 1.052.938 1.94 1.228 2.21 1.362.27.136.427.113.587-.068.162-.181.692-.81.877-1.09.183-.277.365-.23.61-.138.244.091 1.556.734 1.822.869.265.133.44.2.505.31.063.108.063.624-.172 1.283z"/></svg> Open Viber</a>
+              </div>
+              <label className="form-label" htmlFor="c-name">Full Name</label><input className="form-input" type="text" id="c-name" placeholder="Your full name" autoComplete="name"/>
+              <label className="form-label" htmlFor="c-email">Email Address</label><input className="form-input" type="email" id="c-email" placeholder="your@email.com" autoComplete="email"/>
+              <label className="form-label" htmlFor="c-phone">Phone Number</label><input className="form-input" type="tel" id="c-phone" placeholder="+63 9XX XXX XXXX" autoComplete="tel"/>
+              <label className="form-label" htmlFor="c-msg">Message</label><textarea className="form-input" id="c-msg" placeholder="Tell us about your event, vision, and preferred date…" rows="4"></textarea>
+              <div className="reassurance"><span style={{ "fontSize": "1rem", "flexShrink": "0", "marginTop": "1px" }}>✅</span><p>We'll call you within <strong style={{ "color": "var(--text)" }}>24 hours</strong> to confirm your appointment.</p></div>
+              <button type="button" className="btn-submit">Send Consultation Request</button>
+            </div>
           </div>
         </div>
       </section>

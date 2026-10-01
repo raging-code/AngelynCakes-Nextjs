@@ -1,48 +1,14 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [logoFailed, setLogoFailed] = useState(false);
   const close = () => setOpen(false);
-  const [hidden, setHidden] = useState(false);
-  const openRef = useRef(false);
-
-  // keep the bar visible while the mobile menu is open
-  useEffect(() => {
-    openRef.current = open;
-    if (open) setHidden(false);
-  }, [open]);
-
-  // hide on scroll down, show on scroll up (8px dead-zone avoids jitter)
-  useEffect(() => {
-    let lastY = window.scrollY;
-    let ticking = false;
-    const update = () => {
-      ticking = false;
-      const y = Math.max(window.scrollY, 0);
-      const diff = y - lastY;
-      if (y <= 80 || openRef.current) {
-        setHidden(false);
-        lastY = y;
-      } else if (diff > 8) {
-        setHidden(true);
-        lastY = y;
-      } else if (diff < -8) {
-        setHidden(false);
-        lastY = y;
-      }
-    };
-    const onScroll = () => {
-      if (!ticking) { ticking = true; requestAnimationFrame(update); }
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   return (
-    <nav className={'nav-root' + (hidden ? ' nav-hidden' : '')} onFocusCapture={() => setHidden(false)}>
+    <nav className="nav-root">
       <div className="nav-inner">
         <a href="#" className="logo-wrap">
           <div className="logo-box" id="logo-fallback">

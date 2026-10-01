@@ -18,6 +18,10 @@ export default function Tv5() {
     <section className="tv5-section" id="featured-tv5" aria-label="Featured at TV5" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
       <div className="tv5-inner">
         <div className="tv5-header" style={{ marginBottom: '1.5rem' }}>
+          <div className="tv5-badge">
+            <span className="tv5-badge-dot"></span>
+            As Seen On
+          </div>
           <h2 className="tv5-title">Featured at<br/><em>TV5</em></h2>
           <p className="tv5-subtitle">Angelyn's Cakes was featured on national television — a milestone that celebrates years of craft, dedication, and heartfelt service to every client.</p>
         </div>
