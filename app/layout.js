@@ -45,11 +45,9 @@ export default function RootLayout({ children }) {
         {/* Security headers */}
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-        <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         {process.env.NODE_ENV === 'production' && (
           <meta httpEquiv="Content-Security-Policy" content={CSP} />
         )}
-        <meta httpEquiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), interest-cohort=()" />
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
