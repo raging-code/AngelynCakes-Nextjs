@@ -1,0 +1,328 @@
+'use client';
+
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { portrait, tall } from '../lib/data';
+import extractFirstFrame from '../lib/extractFirstFrame';
+
+const MAX_VIDEOS = 19;
+const MOBILE_LIMIT = 4;
+
+/* Placeholder drawn on a video card until its first frame is extracted */
+function drawFallbackIcon(canvas) {
+  const w = canvas.width, h = canvas.height;
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, '#FAF0E5');
+  grad.addColorStop(1, '#F0D9C5');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+  ctx.font = Math.round(w * 0.28) + 'px serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('🎂', w / 2, h / 2);
+}
+
+/* One "Our Works" photo grid with its Show all / Show less buttons */
+function PhotoGrid({ items, gridClass, imgClass, seriesKey, seriesLabel, mobile, expanded, onToggle, onOpen }) {
+  const total = items.length;
+  const limited = mobile && total > MOBILE_LIMIT;
+  const collapsed = limited && !expanded;
+  const lessVisible = limited && expanded;
+
+  return (
+    <div
+      className={'grid-wrapper' + (collapsed ? ' collapsed' : '')}
+      data-mobile-limit={MOBILE_LIMIT}
+      data-series={seriesKey}
+    >
+      <div className={gridClass}>
+        {items.map((it, i) => (
+          <div
+            className="gcard"
+            data-name={it.name}
+            data-series={seriesLabel}
+            key={it.name}
+            onClick={() => onOpen(items, i, seriesLabel)}
+          >
+            <img className={imgClass} src={it.src} alt={it.name} loading="lazy" decoding="async" />
+          </div>
+        ))}
+      </div>
+      <button
+        className={'show-more-btn' + (collapsed ? ' visible' : '')}
+        type="button"
+        onClick={() => onToggle(seriesKey, true)}
+      >
+        {limited ? 'Show all ' + total + ' photos' : 'Show all photos'}
+      </button>
+      <button
+        className={'show-less-btn' + (lessVisible ? ' visible' : '')}
+        type="button"
+        onClick={() => onToggle(seriesKey, false)}
+      >
+        Show less
+      </button>
+    </div>
+  );
+}
+
+export default function Gallery() {
+  const [mounted, setMounted] = useState(false);
+  const [mobile, setMobile] = useState(false);
+  const [expanded, setExpanded] = useState({ portrait: false, tall: false });
+  const [photo, setPhoto] = useState(null); // { items, index, series }
+  const [video, setVideo] = useState({ open: false, index: 0 });
+
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
+  const sectionRef = useRef(null);
+  const canvasRefs = useRef([]);
+  const playerRef = useRef(null);
+  const photoTouchX = useRef(0);
+  const videoTouchX = useRef(0);
+  const stripTouchX = useRef(0);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  /* ─── Show more / show less: mobile detection ─── */
+  useEffect(() => {
+    const update = () => setMobile(window.innerWidth <= 767);
+    update();
+    let t;
+    const onResize = () => {
+      clearTimeout(t);
+      t = setTimeout(() => {
+        update();
+        setExpanded({ portrait: false, tall: false });
+      }, 150);
+    };
+    window.addEventListener('resize', onResize);
+    return () => { window.removeEventListener('resize', onResize); clearTimeout(t); };
+  }, []);
+
+  const toggleExpanded = (key, value) => setExpanded((s) => ({ ...s, [key]: value }));
+
+  /* ─── Video thumbnails: draw placeholders, then extract frames lazily ─── */
+  useEffect(() => {
+    canvasRefs.current.forEach((c) => c && drawFallbackIcon(c));
+
+    let cancelled = false;
+    async function loadAll() {
+      for (let i = 0; i < MAX_VIDEOS; i++) {
+        const frame = await extractFirstFrame('/videos/v' + (i + 1) + '.mp4', 252, 480);
+        if (cancelled) return;
+        const canvas = canvasRefs.current[i];
+        if (frame && canvas) {
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+        }
+        await new Promise((r) => setTimeout(r, 80)); // 80 ms gap between cards
+      }
+    }
+
+    const wrapper = sectionRef.current;
+    if (!wrapper) { loadAll(); return () => { cancelled = true; }; }
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) { obs.unobserve(entry.target); loadAll(); }
+      });
+    }, { rootMargin: '300px' });
+    observer.observe(wrapper);
+    return () => { cancelled = true; observer.disconnect(); };
+  }, []);
+
+  /* ─── Photo lightbox ─── */
+  const openPhoto = useCallback((items, index, series) => setPhoto({ items, index, series }), []);
+  const closePhoto = useCallback(() => setPhoto(null), []);
+  const stepPhoto = useCallback((d) => setPhoto((p) => p && ({ ...p, index: (p.index + d + p.items.length) % p.items.length })), []);
+
+  useEffect(() => {
+    if (!photo) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') closePhoto();
+      if (e.key === 'ArrowRight') stepPhoto(1);
+      if (e.key === 'ArrowLeft') stepPhoto(-1);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [!!photo, closePhoto, stepPhoto]);
+
+  /* ─── Video lightbox ─── */
+  const openVideo = (index) => setVideo({ open: true, index });
+  const closeVideo = useCallback(() => setVideo((v) => ({ ...v, open: false })), []);
+  const stepVideo = useCallback((d) => setVideo((v) => ({ ...v, index: (v.index + d + MAX_VIDEOS) % MAX_VIDEOS })), []);
+
+  useEffect(() => {
+    const p = playerRef.current;
+    if (!p) return;
+    if (video.open) {
+      p.innerHTML = '';
+      const src = document.createElement('source');
+      src.src = '/videos/v' + (video.index + 1) + '.mp4';
+      src.type = 'video/mp4';
+      p.appendChild(src);
+      p.load();
+      p.play().catch(() => {});
+    } else {
+      p.pause();
+      p.innerHTML = '';
+    }
+  }, [video.open, video.index]);
+
+  useEffect(() => {
+    if (!video.open) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') closeVideo();
+      if (e.key === 'ArrowRight') stepVideo(1);
+      if (e.key === 'ArrowLeft') stepVideo(-1);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [video.open, closeVideo, stepVideo]);
+
+  /* lock page scroll while either lightbox is open */
+  const anyOpen = !!photo || video.open;
+  useEffect(() => {
+    document.body.style.overflow = anyOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [anyOpen]);
+
+  /* ─── Video strip scroll controls ─── */
+  const getScrollAmount = () => {
+    const track = trackRef.current;
+    const card = track && track.querySelector('.vcard');
+    return card ? card.offsetWidth + parseInt(getComputedStyle(track).gap) : 250;
+  };
+  const scrollStrip = (dir) =>
+    containerRef.current && containerRef.current.scrollBy({ left: dir * getScrollAmount(), behavior: 'smooth' });
+
+  const cur = photo ? photo.items[photo.index] : null;
+
+  return (
+    <>
+      <section className="section" id="gallery" style={{ background: 'var(--bg)' }}>
+        <div className="section-inner">
+          <div style={{ marginBottom: '2.75rem' }}>
+            <h2 className="section-title">Our<br/><em>Works</em></h2>
+          </div>
+
+          {/* PORTRAIT PHOTOS */}
+          <PhotoGrid
+            items={portrait} gridClass="grid-a" imgClass="img-a" seriesKey="portrait" seriesLabel="Portrait"
+            mobile={mobile} expanded={expanded.portrait} onToggle={toggleExpanded} onOpen={openPhoto}
+          />
+
+          <hr className="series-divider" />
+
+          {/* TALL PHOTOS */}
+          <PhotoGrid
+            items={tall} gridClass="grid-b" imgClass="img-b" seriesKey="tall" seriesLabel="Tall"
+            mobile={mobile} expanded={expanded.tall} onToggle={toggleExpanded} onOpen={openPhoto}
+          />
+
+          <hr className="series-divider" />
+
+          {/* VIDEO CLIPS (thumbnails generated from the MP4s) */}
+          <div className="video-scroll-wrapper" id="video-section" ref={sectionRef}>
+            <div
+              className="video-horizontal-scroll"
+              id="video-scroll-container"
+              ref={containerRef}
+              onTouchStart={(e) => { stripTouchX.current = e.changedTouches[0].screenX; }}
+              onTouchEnd={(e) => {
+                const diff = e.changedTouches[0].screenX - stripTouchX.current;
+                if (Math.abs(diff) > 50) scrollStrip(diff < 0 ? 1 : -1);
+              }}
+            >
+              <div className="video-scroll-track" id="video-track" ref={trackRef}>
+                {Array.from({ length: MAX_VIDEOS }, (_, i) => (
+                  <div
+                    className="vcard"
+                    key={i}
+                    data-video-src-mp4={'/videos/v' + (i + 1) + '.mp4'}
+                    data-name={'Cake Preview ' + (i + 1)}
+                    onClick={() => openVideo(i)}
+                  >
+                    <canvas width={252} height={480} ref={(el) => { canvasRefs.current[i] = el; }}></canvas>
+                    <div className="play-icon-overlay"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="video-scroll-controls">
+              <button className="scroll-btn scroll-prev" aria-label="Previous videos" onClick={() => scrollStrip(-1)}>‹</button>
+              <button className="scroll-btn scroll-next" aria-label="Next videos" onClick={() => scrollStrip(1)}>›</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Lightboxes live at the end of <body>, exactly like the original page */}
+      {mounted && createPortal(
+        <>
+          {/* PHOTO LIGHTBOX */}
+          <div
+            className={'lightbox' + (photo ? ' open' : '')}
+            id="photo-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Image viewer"
+            onClick={(e) => { if (e.target === e.currentTarget) closePhoto(); }}
+            onTouchStart={(e) => { photoTouchX.current = e.changedTouches[0].screenX; }}
+            onTouchEnd={(e) => {
+              const x = e.changedTouches[0].screenX;
+              if (Math.abs(x - photoTouchX.current) > 50) stepPhoto(x < photoTouchX.current ? 1 : -1);
+            }}
+          >
+            <button className="lb-close" id="photo-lb-close" aria-label="Close" onClick={closePhoto}>✕</button>
+            <div className="lb-img-wrap">
+              <img id="photo-lb-img" src={cur ? cur.src : undefined} alt={cur ? cur.name : ''} />
+              <button className="lb-nav lb-prev" id="photo-lb-prev" onClick={() => stepPhoto(-1)}>‹</button>
+              <button className="lb-nav lb-next" id="photo-lb-next" onClick={() => stepPhoto(1)}>›</button>
+            </div>
+            <div className="lb-info">
+              <p className="lb-info-name" id="photo-lb-name">{cur ? cur.name : ''}</p>
+              <p className="lb-info-sub" id="photo-lb-series">{photo ? photo.series : ''}</p>
+            </div>
+          </div>
+
+          {/* VIDEO LIGHTBOX */}
+          <div
+            className={'video-lightbox' + (video.open ? ' open' : '')}
+            id="video-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Video viewer"
+            onClick={(e) => { if (e.target === e.currentTarget) closeVideo(); }}
+            onTouchStart={(e) => { videoTouchX.current = e.changedTouches[0].screenX; }}
+            onTouchEnd={(e) => {
+              const diff = e.changedTouches[0].screenX - videoTouchX.current;
+              if (Math.abs(diff) > 50) stepVideo(diff < 0 ? 1 : -1);
+            }}
+          >
+            <button className="vlb-btn vlb-close" id="video-lb-close" aria-label="Close" onClick={closeVideo}>✕</button>
+            <video id="video-lb-player" ref={playerRef} controls playsInline preload="auto"></video>
+            <div className="vlb-controls">
+              <button className="vlb-btn" id="video-lb-prev" onClick={() => stepVideo(-1)}>‹</button>
+              <button className="vlb-btn" id="video-lb-next" onClick={() => stepVideo(1)}>›</button>
+              <button
+                className="vlb-btn"
+                id="video-lb-fullscreen"
+                onClick={() => {
+                  const p = playerRef.current;
+                  if (!p) return;
+                  if (p.requestFullscreen) p.requestFullscreen();
+                  else if (p.webkitRequestFullscreen) p.webkitRequestFullscreen();
+                }}
+              >⛶</button>
+            </div>
+            <div className="vlb-info" id="video-lb-info">{'Cake Preview ' + (video.index + 1)}</div>
+          </div>
+        </>,
+        document.body
+      )}
+    </>
+  );
+}
