@@ -115,3 +115,17 @@
   .gcard:hover img,.cake-card:hover img,.vcard:hover img{transform:none}
   .cake-card:hover .cake-name-bar{opacity:1}
 }
+
+
+/* ────────── Map: dark chocolate + gold, map only ────────── */
+.map-wrap.map-dark{
+  position:relative;overflow:hidden;min-height:440px;height:100%;
+  background:#2A120C;border:1px solid #4A2A22;border-radius:18px;box-shadow:none;
+  --crop:100px; /* hides Google's white place card at the top-left; raise if you still see it */
+}
+.map-wrap.map-dark iframe{
+  position:absolute;left:0;top:calc(var(--crop) * -1);
+  width:100%;height:calc(100% + var(--crop));min-height:0;border:0;display:block;
+  filter:invert(92%) hue-rotate(180deg) sepia(.55) saturate(1.25) brightness(.88) contrast(.95);
+}
+@media (max-width:600px){.map-wrap.map-dark{min-height:380px;--crop:125px}}

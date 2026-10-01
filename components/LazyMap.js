@@ -27,14 +27,13 @@ export default function LazyMap() {
   }, []);
 
   return (
-    <div className="map-wrap" id="map-wrap" ref={wrapRef}>
+    <div className="map-wrap map-dark" id="map-wrap" ref={wrapRef}>
       {show && (
         <iframe
           src={MAP_SRC}
           allowFullScreen
           loading="lazy"
-          title="Google Maps showing showroom location"
-          style={{ width: '100%', height: '100%', border: 0, display: 'block', minHeight: '300px' }}
+          title="Map showing the Pasay showroom location"
         />
       )}
     </div>

@@ -4,7 +4,7 @@ import './globals.css';           // custom styles extracted from index.html
 export const metadata = {
   title: "Angelyn's Cakes — For Every Occasion",
   description:
-    "Angelyn's Cakes creates bespoke, luxury celebration cakes in Manila. Custom wedding, debut, and corporate cakes. Visit our Makati showroom by appointment.",
+    "Angelyn's Cakes creates bespoke, luxury celebration cakes in Manila. Custom wedding, debut, and corporate cakes. Visit our Pasay showroom by appointment.",
   keywords:
     "custom cakes Manila, wedding cakes, debut cakes, bespoke cakes, cake delivery Makati, Angelyn's Cakes",
   alternates: { canonical: 'https://www.angelyncakes.com/' },

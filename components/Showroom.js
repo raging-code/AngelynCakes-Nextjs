@@ -12,11 +12,11 @@ export default function Showroom() {
           <div style={{ "display": "grid", "gridTemplateColumns": "1fr", "gap": "1.5rem" }}>
             <div className="showroom-widget">
               <div className="sw-section">
-                <div className="status-open"><span className="status-dot"></span> Open · Makati Studio</div>
-                <p style={{ "fontFamily": "'Playfair Display',serif", "fontSize": "1.35rem", "fontWeight": "700", "color": "var(--text)", "marginBottom": "0.25rem" }}>537D Gen J Lacuna</p>
-                <p style={{ "fontSize": "0.9rem", "color": "var(--text-mid)", "marginBottom": "0.9rem" }}>Barangay Bangkal, Makati City</p>
+                <div className="status-open"><span className="status-dot"></span> Open · Pasay Studio</div>
+                <p style={{ "fontFamily": "'Playfair Display',serif", "fontSize": "1.35rem", "fontWeight": "700", "color": "var(--text)", "marginBottom": "0.25rem" }}>60 Russel Ave</p>
+                <p style={{ "fontSize": "0.9rem", "color": "var(--text-mid)", "marginBottom": "0.9rem" }}>Brgy. San Rafael, Pasay City</p>
                 <p style={{ "fontSize": "0.875rem", "color": "var(--text-dim)" }}>🕐 Daily · <strong style={{ "color": "var(--text)" }}>7:30 AM – 6:00 PM</strong></p>
-                <a href="https://maps.google.com/?q=537D+Gen+J+Lacuna+Bangkal+Makati" target="_blank" rel="noopener" className="btn-dir">📍 Get Directions ↗</a>
+                <a href="https://maps.app.goo.gl/dpGJnVEoqirTxCUv8" target="_blank" rel="noopener" className="btn-dir">📍 Get Directions ↗</a>
               </div>
               <div className="sw-appt">
                 <p style={{ "fontFamily": "'Playfair Display',serif", "fontSize": "1.1rem", "fontWeight": "700", "fontStyle": "italic", "color": "#fff", "marginBottom": "0.4rem" }}>🌸 By Appointment Only</p>
