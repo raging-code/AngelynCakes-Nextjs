@@ -1,9 +1,14 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Static export -> ./out, deployable on Cloudflare Pages with no server/adapter.
-  // public/_headers is copied into ./out and keeps working on Cloudflare Pages.
   output: 'export',
   images: { unoptimized: true },
+  allowedDevOrigins: ['192.168.18.18'],
+  turbopack: { root: __dirname },
 };
 
 export default nextConfig;
