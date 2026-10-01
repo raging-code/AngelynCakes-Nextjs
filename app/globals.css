@@ -297,3 +297,50 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .seo-faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .seo-faq details p{margin-top:.6rem;font-size:.9rem;font-weight:300;color:var(--text-mid);line-height:1.8}
 /* <<< angelyn:seo-section */
+
+
+/* >>> angelyn:faq-page */
+.fq-back{font-size:.7rem;padding:10px 16px;gap:.5rem;white-space:nowrap}
+.fq-short{display:inline}.fq-long{display:none}
+@media(min-width:640px){.fq-short{display:none}.fq-long{display:inline}.fq-back{font-size:.74rem;padding:11px 22px}}
+.fq-main{padding-top:64px;background:var(--bg)}
+@media(min-width:768px){.fq-main{padding-top:80px}}
+.fq-sec{padding:4rem 1.25rem 0}
+@media(min-width:768px){.fq-sec{padding:6rem 3rem 0}}
+.fq-in{max-width:1100px;margin:0 auto;padding-bottom:5rem}
+.fq-eye{display:block;font-size:.72rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.fq-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.2rem,6vw,4.2rem);font-weight:900;line-height:.98;color:var(--text);margin-bottom:1.1rem}
+.fq-title em{font-style:italic;font-weight:400;color:var(--gold-lg)}
+.fq-lead{font-size:1rem;font-weight:300;line-height:1.75;color:var(--text-mid);max-width:600px}
+.fq-list{margin-top:3.5rem;border-bottom:1px solid rgba(46,21,16,.16)}
+.fq-row{display:grid;grid-template-columns:3rem 1fr;gap:.25rem 1rem;padding:1.6rem 0;border-top:1px solid rgba(46,21,16,.16);transition:padding .3s}
+@media(min-width:800px){.fq-row{grid-template-columns:4rem 1.1fr 1.4fr 2rem;align-items:baseline;gap:2rem}.fq-row:hover{padding-left:1rem}}
+.fq-n{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--gold-lg)}
+.fq-row h2{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:var(--text);transition:color .2s}
+.fq-row:hover h2{color:var(--accent)}
+.fq-row p{grid-column:2;font-size:.92rem;line-height:1.65;font-weight:300;color:var(--text-mid)}
+@media(min-width:800px){.fq-row p{grid-column:auto}}
+.fq-ar{display:none;color:var(--accent)}
+@media(min-width:800px){.fq-ar{display:block}}
+.fq-areas{margin-top:5rem}
+.fq-areas p{font-size:1rem;font-weight:300;line-height:1.75;color:var(--text-mid);max-width:600px}
+.fq-cities{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem 0;margin-top:1.25rem}
+.fq-cities li{font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mid);padding-right:.9rem;margin-right:.9rem;border-right:1px solid rgba(46,21,16,.2)}
+.fq-cities li:last-child{border-right:0}
+.fq-faq{display:grid;gap:2rem;margin-top:6rem}
+@media(min-width:900px){.fq-faq{grid-template-columns:1fr 1.6fr;gap:4rem}}
+.fq-h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;line-height:1.1;color:var(--text)}
+.fq-cta{margin-top:2rem}
+.fq-faq details{border-top:1px solid rgba(46,21,16,.16)}
+.fq-faq details:last-child{border-bottom:1px solid rgba(46,21,16,.16)}
+.fq-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:1rem;padding:1.3rem 0;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+.fq-faq summary::-webkit-details-marker{display:none}
+.fq-faq summary::after{content:'+';font:300 1.6rem 'DM Sans',sans-serif;color:var(--accent);line-height:1;flex-shrink:0;transition:transform .25s}
+.fq-faq details[open] summary::after{transform:rotate(45deg)}
+.fq-faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.fq-faq details p{font-size:.95rem;font-weight:300;line-height:1.7;color:var(--text-mid);padding-bottom:1.3rem;max-width:620px}
+.fq-bottom{margin-top:4rem}
+.fq-chips{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.fq-chips a{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--text-mid);border:1px solid var(--border-h);border-radius:999px;padding:.5rem .95rem;transition:background .2s,color .2s}
+.fq-chips a:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* <<< angelyn:faq-page */

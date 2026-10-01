@@ -79,6 +79,7 @@ export default function Nav() {
           <a href="#showroom" className="nav-link">Showroom</a>
           <a href="#about" className="nav-link">About Us</a>
           <a href="#reviews" className="nav-link">Reviews</a>
+          <a href="/faq" className="nav-link">FAQ</a>
           <a href="#contact" className="btn-cta" style={{ fontSize: '0.76rem', padding: '11px 24px' }}>Book a Consultation</a>
         </div>
         <button
@@ -102,6 +103,7 @@ export default function Nav() {
           <a href="#showroom" className="mobile-link" onClick={close}>Showroom</a>
           <a href="#about" className="mobile-link" onClick={close}>About Us</a>
           <a href="#reviews" className="mobile-link" onClick={close}>Reviews</a>
+          <a href="/faq" className="mobile-link" onClick={close}>FAQ</a>
           <div style={{ paddingTop: '1rem' }}>
             <a href="#contact" className="btn-cta" onClick={close} style={{ width: '100%', display: 'block', padding: '14px 0' }}>Book a Consultation</a>
           </div>

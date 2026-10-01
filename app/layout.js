@@ -1,16 +1,23 @@
 import '../css/tailwind.min.css'; // self-hosted, purged Tailwind CSS (same file as before)
 import './globals.css';
-import { JSON_LD } from '../lib/seo';           // custom styles extracted from index.html
+import { JSON_LD, METRO_CITIES } from '../lib/seo';           // custom styles extracted from index.html
 
 export const metadata = {
   metadataBase: new URL('https://www.angelyncakes.com'),
   title: "Custom Wedding, Birthday & Debut Cakes in Manila | Angelyn's Cakes",
   description:
-    "Angelyn's Cakes makes custom wedding cakes, birthday cakes, debut, christening, anniversary and corporate cakes in Manila. Visit our Pasay City showroom by appointment.",
+    "Angelyn's Cakes makes custom wedding cakes, birthday cakes, debut, christening, anniversary and corporate cakes in Manila and across Metro Manila. Visit our Pasay City showroom by appointment.",
   keywords: [
     "Angelyn's Cakes",
     'Angelyn Cakes',
+    'Angelyns Cakes',
+    'Angelyns Cake',
+    'Angelyn Cake',
+    'angelyncakes',
+    'angelyncakes.com',
     'custom cakes Manila',
+    'custom cakes Metro Manila',
+    'cake shop Metro Manila',
     'wedding cakes Manila',
     'birthday cakes Manila',
     'debut cakes Manila',
@@ -23,6 +30,7 @@ export const metadata = {
     'custom cake shop Pasay',
     'cake delivery Metro Manila',
     'bespoke cakes Philippines',
+    ...METRO_CITIES.map((c) => 'custom cakes ' + c),
   ],
   alternates: { canonical: 'https://www.angelyncakes.com/' },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
