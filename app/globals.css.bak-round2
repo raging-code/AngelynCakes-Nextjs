@@ -80,27 +80,3 @@
 /* Hint the compositor about the hero video early so the first frame is
    promoted as soon as it starts decoding, reducing jank on entry. */
 .hero video{will-change:transform;transform:translateZ(0)}
-
-
-/* ────────── Hero mobile performance fix (patch round 2) ────────── */
-/* The original mobile rule (aspect-ratio:9/16) makes the hero as tall as a
-   full portrait phone screen — on a typical 390px-wide phone that's ~690px
-   of continuously-decoding, full-bleed video. Capping it to a fraction of
-   the real visible viewport (dynamic "small viewport height" unit, which
-   accounts for the mobile browser's address bar) cuts the decoded/composited
-   pixel area substantially, which is the single biggest lever for smoothness
-   on weak Android GPUs. Falls back harmlessly on browsers without svh. */
-@media (max-width:767px){
-  .hero{max-height:88vh}
-  .hero{max-height:88svh}
-}
-
-/* Undo the earlier forced compositor layer on the hero video: a dedicated
-   screen-sized layer (will-change/translateZ) is expensive to maintain on
-   low-end GPUs and was making mobile scrolling worse, not smoother. The
-   browser already promotes a playing <video> element on its own. */
-.hero video{will-change:auto;transform:none}
-
-/* contain the hero's layout/paint so its own continuous repaint (the video
-   frame updates) can never force a recalculation of the rest of the page. */
-.hero{contain:layout paint}
