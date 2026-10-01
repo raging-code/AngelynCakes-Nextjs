@@ -57,13 +57,6 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
 
-        {/* Preload the correct hero video for this viewport so playback starts
-            as early as possible, without fetching the other (unused) variant. */}
-        <link rel="preload" as="image" href="/images/hero-poster-mobile.jpg" media="(max-width: 767px)" fetchPriority="high" />
-        <link rel="preload" as="image" href="/images/hero-poster-desktop.jpg" media="(min-width: 768px)" fetchPriority="high" />
-        <link rel="preload" as="video" type="video/mp4" href="/videos/mhero-opt.mp4" media="(max-width: 767px)" />
-        <link rel="preload" as="video" type="video/mp4" href="/videos/dhero.mp4" media="(min-width: 768px)" />
-
         {/* Google Fonts (non-blocking): print media until loaded, then switch to all */}
         <link id="gfonts" href={FONTS_URL} rel="stylesheet" media="print" suppressHydrationWarning />
         <script

@@ -46,37 +46,3 @@
     .contact-info-col { display: flex; flex-direction: column; }
 
 .cake-card.tapped .cake-name-bar { opacity: 0; }
-
-
-/* ────────── Performance & responsiveness additions (patch) ────────── */
-/* Let the browser skip layout/paint work for offscreen sections until they
-   scroll near the viewport. Keeps an estimated height so scrollbar/scroll
-   position doesn't jump once content is measured. */
-#gallery,#featured-tv5,#showroom,#reviews,#about,#contact{content-visibility:auto;contain-intrinsic-size:1px 1200px}
-
-/* Smoother, GPU-friendly swiping/scrolling on touch strips */
-.video-horizontal-scroll,.testi-outer{touch-action:pan-x pan-y;-webkit-tap-highlight-color:transparent}
-.gcard,.cake-card,.vcard{touch-action:manipulation}
-
-/* Avoid animating box-shadow directly (paint-heavy); promote hover-animated
-   cards to their own compositor layer only while interacted with. */
-.gcard:hover,.cake-card:hover,.vcard:hover{will-change:transform}
-
-/* Respect users who prefer less motion: stop marquees/pulses and cut
-   hover-triggered transforms, without breaking layout. */
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .ticker-track,.testi-track,.tv5-badge-dot,.status-dot{animation:none !important}
-  *,*::before,*::after{transition-duration:0.001ms !important;animation-duration:0.001ms !important}
-}
-
-/* Fluid type/spacing tightening on very small phones to avoid overflow-induced
-   reflow/jank on first paint. */
-@media (max-width:360px){
-  .section{padding:3.5rem 1rem}
-  .section-title{font-size:clamp(1.9rem,9vw,3rem)}
-}
-
-/* Hint the compositor about the hero video early so the first frame is
-   promoted as soon as it starts decoding, reducing jank on entry. */
-.hero video{will-change:transform;transform:translateZ(0)}

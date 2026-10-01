@@ -55,8 +55,6 @@ export default function Hero() {
         playsInline
         webkit-playsinline=""
         preload="auto"
-        disablePictureInPicture
-        disableRemotePlayback
         style={{ backgroundColor: '#2E1510' }}
         aria-hidden="true"
       ></video>

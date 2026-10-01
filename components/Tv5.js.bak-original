@@ -1,18 +1,32 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import extractFirstFrame from '../lib/extractFirstFrame';
 
 export default function Tv5() {
+  const canvasRef = useRef(null);
   const videoRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [failed, setFailed] = useState(false);
 
-  const start = () => {
-    if (playing) return;
-    setPlaying(true);
-    // play() is queued for after the <video> mounts, on the next tick
-    requestAnimationFrame(() => videoRef.current && videoRef.current.play().catch(() => {}));
-  };
+  // Draw the poster frame from the video itself
+  useEffect(() => {
+    let cancelled = false;
+    extractFirstFrame('/videos/feat.mp4', 1280, 720)
+      .then((frameCanvas) => frameCanvas || extractFirstFrame('/videos/feat.webm', 1280, 720))
+      .then((frameCanvas) => {
+        const canvas = canvasRef.current;
+        if (cancelled || !frameCanvas || !canvas) return;
+        canvas.getContext('2d').drawImage(frameCanvas, 0, 0, canvas.width, canvas.height);
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    if (playing && videoRef.current) videoRef.current.play().catch(() => {});
+  }, [playing]);
+
+  const start = () => { if (!playing) setPlaying(true); };
 
   return (
     <section className="tv5-section" id="featured-tv5" aria-label="Featured at TV5" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
@@ -27,25 +41,19 @@ export default function Tv5() {
         </div>
 
         <div className="tv5-video-wrap" id="tv5-video-wrap">
-          {!playing && (
-            <img
-              id="tv5-poster-img"
-              src="/images/video-posters/feat.jpg"
-              alt="Angelyn's Cakes featured on TV5"
-              width={1280}
-              height={720}
-              loading="lazy"
-              decoding="async"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', zIndex: 1 }}
-            />
-          )}
+          <canvas
+            id="tv5-poster-canvas"
+            ref={canvasRef}
+            width={1280}
+            height={720}
+            style={playing ? { display: 'none' } : undefined}
+          ></canvas>
           {playing && (
             <video
               ref={videoRef}
               controls
               playsInline
               preload="auto"
-              poster="/images/video-posters/feat.jpg"
               style={{
                 position: 'absolute', inset: 0, width: '100%', height: '100%',
                 objectFit: 'cover', background: '#000', zIndex: 0,
