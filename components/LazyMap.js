@@ -31,6 +31,7 @@ export default function LazyMap() {
       {show && (
         <iframe
           src={MAP_SRC}
+          referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
           loading="lazy"
           title="Map showing the Pasay showroom location"

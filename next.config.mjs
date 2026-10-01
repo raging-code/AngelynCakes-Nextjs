@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   output: 'export',
   images: { unoptimized: true },
-  allowedDevOrigins: ['192.168.18.18'],
+  allowedDevOrigins: (process.env.DEV_ORIGINS || '').split(',').map((x) => x.trim()).filter(Boolean),
   turbopack: { root: __dirname },
 };
 
