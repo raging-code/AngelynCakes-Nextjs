@@ -1,5 +1,4 @@
-User-agent: facebookexternalhit
+User-agent: *
 Allow: /
 
-User-agent: facebookcatalog
-Allow: /
+Sitemap: https://www.angelyncakes.com/sitemap.xml

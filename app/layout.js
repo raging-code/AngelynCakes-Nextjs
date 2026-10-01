@@ -1,13 +1,31 @@
 import '../css/tailwind.min.css'; // self-hosted, purged Tailwind CSS (same file as before)
-import './globals.css';           // custom styles extracted from index.html
+import './globals.css';
+import { JSON_LD } from '../lib/seo';           // custom styles extracted from index.html
 
 export const metadata = {
-  title: "Angelyn's Cakes — For Every Occasion",
+  metadataBase: new URL('https://www.angelyncakes.com'),
+  title: "Custom Wedding, Birthday & Debut Cakes in Manila | Angelyn's Cakes",
   description:
-    "Angelyn's Cakes creates bespoke, luxury celebration cakes in Manila. Custom wedding, debut, and corporate cakes. Visit our Pasay showroom by appointment.",
-  keywords:
-    "custom cakes Manila, wedding cakes, debut cakes, bespoke cakes, cake delivery Makati, Angelyn's Cakes",
+    "Angelyn's Cakes makes custom wedding cakes, birthday cakes, debut, christening, anniversary and corporate cakes in Manila. Visit our Pasay City showroom by appointment.",
+  keywords: [
+    "Angelyn's Cakes",
+    'Angelyn Cakes',
+    'custom cakes Manila',
+    'wedding cakes Manila',
+    'birthday cakes Manila',
+    'debut cakes Manila',
+    'christening cakes',
+    'baptism cakes',
+    'anniversary cakes',
+    'corporate cakes',
+    'cakes for birthday',
+    'cakes for wedding',
+    'custom cake shop Pasay',
+    'cake delivery Metro Manila',
+    'bespoke cakes Philippines',
+  ],
   alternates: { canonical: 'https://www.angelyncakes.com/' },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
   icons: { icon: [{ url: '/images/icon-sm.png', type: 'image/png' }] },
 };
 
@@ -26,16 +44,19 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         {/* Social sharing */}
-        <meta property="og:title" content="Angelyn's Cakes — For Every Occasion" />
-        <meta property="og:description" content="Custom cakes for weddings, debuts, and corporate events. Handcrafted in Makati." />
+        <meta property="og:title" content="Custom Wedding, Birthday & Debut Cakes in Manila | Angelyn's Cakes" />
+        <meta property="og:description" content="Custom wedding cakes, birthday cakes, debut, christening and corporate cakes in Manila. Showroom in Pasay City, by appointment." />
         <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Angelyn's Cakes" />
+        <meta property="og:locale" content="en_PH" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta property="og:url" content="https://www.angelyncakes.com/" />
         <meta property="og:image" content={OG_IMAGE} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta name="twitter:image" content={OG_IMAGE} />
-        <meta name="twitter:title" content="Angelyn's Cakes — For Every Occasion" />
-        <meta name="twitter:description" content="Custom cakes for weddings, debuts, and corporate events. Handcrafted in Makati." />
+        <meta name="twitter:title" content="Custom Wedding, Birthday & Debut Cakes in Manila | Angelyn's Cakes" />
+        <meta name="twitter:description" content="Custom wedding cakes, birthday cakes, debut, christening and corporate cakes in Manila. Showroom in Pasay City, by appointment." />
 
         {/* Security headers */}
         <meta name="referrer" content="strict-origin-when-cross-origin" />
@@ -64,6 +85,7 @@ export default function RootLayout({ children }) {
         <noscript>
           <link href={FONTS_URL} rel="stylesheet" />
         </noscript>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
       </head>
       <body>{children}</body>
     </html>

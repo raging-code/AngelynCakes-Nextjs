@@ -24,7 +24,7 @@ function CakeCard({ src, alt, onOpen }) {
       onTouchStart={() => setTapped(true)}
       onTouchEnd={() => setTimeout(() => setTapped(false), 600)}
     >
-      <img src={thumb(src)} alt={alt} loading="lazy" decoding="async" />
+      <img src={thumb(src)} alt={'Custom celebration cake ' + alt + " by Angelyn's Cakes, Manila"} loading="lazy" decoding="async" />
       <div className="cake-name-bar"><p>{alt}</p></div>
     </div>
   );

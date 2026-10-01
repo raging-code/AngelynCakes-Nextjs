@@ -11,3 +11,4 @@ public/videos/*.bak*
 .patch-backup-security/
 .env
 .env.*
+.patch-backup-seo/

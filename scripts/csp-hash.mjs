@@ -56,12 +56,12 @@ if (problems) process.exit(1);
 
 const csp = [
   "default-src 'self'",
-  "script-src 'self' " + [...hashes].join(' '),
+  "script-src 'self' https://static.cloudflareinsights.com " + [...hashes].join(' '),
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", // React inline style="" attributes
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",
   "font-src 'self' https://fonts.gstatic.com",
-  "connect-src 'self'",
+  "connect-src 'self' https://cloudflareinsights.com",
   "frame-src https://www.google.com",
   "object-src 'none'",
   "base-uri 'self'",

@@ -278,3 +278,22 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .footer-inner>div:first-child>div:nth-child(3){grid-column:2;grid-row:1 / span 2;max-width:34rem}
 }
 /* <<< angelyn:responsive-perf-v1 */
+
+/* >>> angelyn:seo-section */
+.seo-intro{font-size:.95rem;font-weight:300;color:var(--text-mid);line-height:1.85;max-width:720px;margin-bottom:2.25rem}
+.seo-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+@media(min-width:640px){.seo-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.seo-grid{grid-template-columns:repeat(4,1fr)}}
+.seo-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.25rem}
+.seo-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text);margin-bottom:.5rem}
+.seo-card p{font-size:.86rem;font-weight:300;color:var(--text-mid);line-height:1.7}
+.seo-faq-title{font-family:'Playfair Display',serif;font-size:clamp(1.35rem,4vw,1.8rem);color:var(--text);margin:3rem 0 1rem}
+.seo-faq{max-width:760px}
+.seo-faq details{border-bottom:1px solid var(--border);padding:.95rem 0}
+.seo-faq summary{cursor:pointer;font-size:.95rem;font-weight:500;color:var(--text);list-style:none;display:flex;justify-content:space-between;gap:1rem;align-items:center}
+.seo-faq summary::-webkit-details-marker{display:none}
+.seo-faq summary::after{content:'+';color:var(--accent);font-size:1.25rem;line-height:1;flex-shrink:0}
+.seo-faq details[open] summary::after{content:'\2212'}
+.seo-faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.seo-faq details p{margin-top:.6rem;font-size:.9rem;font-weight:300;color:var(--text-mid);line-height:1.8}
+/* <<< angelyn:seo-section */

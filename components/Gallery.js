@@ -39,7 +39,7 @@ function PhotoGrid({ items, gridClass, imgClass, seriesKey, seriesLabel, mobile,
             <img
               className={imgClass}
               src={thumb(it.src)}
-              alt={it.name}
+              alt={'Custom celebration cake ' + it.name + " by Angelyn's Cakes, Manila"}
               loading="lazy"
               decoding="async"
               sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"

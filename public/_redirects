@@ -1,0 +1,5 @@
+# Old / guessed URLs that search engines may still have indexed -> the home page
+/home        /  301
+/home/       /  301
+/home.html   /  301
+/index.html  /  301
