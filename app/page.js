@@ -3,7 +3,6 @@ import Hero from '../components/Hero';
 import Ticker from '../components/Ticker';
 import Bestsellers from '../components/Bestsellers';
 import Gallery from '../components/Gallery';
-import Occasions from '../components/Occasions';
 import Tv5 from '../components/Tv5';
 import Showroom from '../components/Showroom';
 import Testimonials from '../components/Testimonials';
@@ -20,7 +19,6 @@ export default function Home() {
         <Ticker />
         <Bestsellers />
         <Gallery />
-        <Occasions />
         <Tv5 />
         <Showroom />
         <Testimonials />
