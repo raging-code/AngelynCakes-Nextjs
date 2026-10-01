@@ -7,6 +7,7 @@ export default function Showroom() {
         <div className="section-inner">
           <div style={{ "marginBottom": "2.75rem" }}>
             <h2 className="section-title">Visit the<br/><em>Showroom</em></h2>
+            <p className="showroom-tagline">Come see where every cake begins its story.</p>
           </div>
           <div className="showroom-widget sr-card">
             <div className="sr-body">
