@@ -5,10 +5,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async headers() {
-    const { default: perfHeaders } = await import('./perf-headers.mjs'); // added by patch-site
-    return perfHeaders();
-  },
   output: 'export',
   images: { unoptimized: true },
   allowedDevOrigins: ['192.168.18.18'],
