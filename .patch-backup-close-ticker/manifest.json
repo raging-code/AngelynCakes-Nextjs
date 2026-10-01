@@ -1,0 +1,7 @@
+{
+  "modified": [
+    "components/Gallery.js",
+    "components/Ticker.js",
+    "app/globals.css"
+  ]
+}

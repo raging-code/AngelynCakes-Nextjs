@@ -2,6 +2,7 @@ export default function Ticker() {
   return (
     <>
       <div className="ticker" aria-hidden="true">
+        <div className="ticker-label"><span>Trusted By</span></div>
         <div className="ticker-scroll">
           <div className="ticker-track">
             <span className="ticker-item">Weddings</span><span className="ticker-dot">●</span>

@@ -186,8 +186,3 @@
 
 /* Contact: the form is gone, so the info column takes the full width */
 @media (min-width: 768px) { .contact-layout { grid-template-columns: 1fr; } }
-
-/* ────────── Smaller close button on the media (patch-close-ticker) ────────── */
-.vlb-stage{position:relative;display:flex;max-width:90vw}
-.lb-close,.vlb-close{top:.6rem;right:.6rem;width:32px;height:32px;font-size:.85rem;padding:0;z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.45)}
-.lb-close::after,.vlb-close::after{content:'';position:absolute;inset:-6px}

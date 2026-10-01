@@ -239,9 +239,9 @@ export default function Gallery() {
               if (Math.abs(x - photoTouchX.current) > 50) stepPhoto(x < photoTouchX.current ? 1 : -1);
             }}
           >
+            <button className="lb-close" id="photo-lb-close" aria-label="Close" onClick={closePhoto}>✕</button>
             <div className="lb-img-wrap">
               <img id="photo-lb-img" src={cur ? cur.src : undefined} alt={cur ? cur.name : ''} />
-              <button className="lb-close" id="photo-lb-close" aria-label="Close" onClick={closePhoto}>✕</button>
               <button className="lb-nav lb-prev" id="photo-lb-prev" onClick={() => stepPhoto(-1)}>‹</button>
               <button className="lb-nav lb-next" id="photo-lb-next" onClick={() => stepPhoto(1)}>›</button>
             </div>
@@ -265,10 +265,8 @@ export default function Gallery() {
               if (Math.abs(diff) > 50) stepVideo(diff < 0 ? 1 : -1);
             }}
           >
-            <div className="vlb-stage">
-              <video id="video-lb-player" ref={playerRef} controls playsInline preload="auto"></video>
-              <button className="vlb-btn vlb-close" id="video-lb-close" aria-label="Close" onClick={closeVideo}>✕</button>
-            </div>
+            <button className="vlb-btn vlb-close" id="video-lb-close" aria-label="Close" onClick={closeVideo}>✕</button>
+            <video id="video-lb-player" ref={playerRef} controls playsInline preload="auto"></video>
             <div className="vlb-controls">
               <button className="vlb-btn" id="video-lb-prev" onClick={() => stepVideo(-1)}>‹</button>
               <button className="vlb-btn" id="video-lb-next" onClick={() => stepVideo(1)}>›</button>
