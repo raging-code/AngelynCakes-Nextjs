@@ -3,7 +3,7 @@
  *
  * Why: Search Console reported "Page is not indexed: Alternate page with proper canonical tag"
  * for https://www.angelynscake.com/ because the deployed HTML declared its canonical as
- * https://www.angelyncakes.com/ (a different domain). The source was already corrected in commit
+ * https://www.angelynscake.com/ (a different domain). The source was already corrected in commit
  * c4c3a2a; this patch makes sure that mistake can never ship again.
  *
  * Run from the repo root on the `nextjs` branch:

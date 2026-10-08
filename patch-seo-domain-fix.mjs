@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Angelyn's Cakes: finish the canonical domain switch (angelyncakes.com -> angelynscake.com)
+/* Angelyn's Cakes: finish the canonical domain switch (www.angelynscake.com -> angelynscake.com)
  *
  * Run from the repo root on the `nextjs` branch:
  *   node patch-seo-domain-fix.mjs --dry       preview, write nothing
@@ -13,7 +13,7 @@
  *                        (so each page can set its own)
  *   app/faq/page.js      /faq now declares og:url = https://www.angelynscake.com/faq
  *
- * Not touched on purpose: the 'angelyncakes.com' SEO keyword entries in layout.js / lib/seo.js
+ * Not touched on purpose: the 'www.angelynscake.com' SEO keyword entries in layout.js / lib/seo.js
  * (people still search for that spelling).
  * Safe to re-run: already-fixed files are skipped.
  */
@@ -24,7 +24,7 @@ const DRY = process.argv.includes('--dry');
 const CLEANUP = process.argv.includes('--cleanup');
 const root = process.cwd();
 
-const OLD = 'www.angelyncakes.com';
+const OLD = 'www.angelynscake.com';
 const NEW = 'www.angelynscake.com';
 const TODAY = new Date().toISOString().slice(0, 10);
 

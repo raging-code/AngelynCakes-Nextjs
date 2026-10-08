@@ -15,7 +15,7 @@ export const metadata = {
     'Angelyn Cake',
     'angelyncakes',
     'angelynscake.com',
-    'angelyncakes.com',
+    'www.angelynscake.com',
     'custom cakes Manila',
     'custom cakes Metro Manila',
     'cake shop Metro Manila',
