@@ -3,7 +3,7 @@ import './globals.css';
 import { JSON_LD, METRO_CITIES } from '../lib/seo';           // custom styles extracted from index.html
 
 export const metadata = {
-  metadataBase: new URL('https://www.angelyncakes.com'),
+  metadataBase: new URL('https://www.angelynscake.com'),
   title: "Custom Wedding, Birthday & Debut Cakes in Manila | Angelyn's Cakes",
   description:
     "Angelyn's Cakes makes custom wedding cakes, birthday cakes, debut, christening, anniversary and corporate cakes in Manila and across Metro Manila. Visit our Pasay City showroom by appointment.",
@@ -14,6 +14,7 @@ export const metadata = {
     'Angelyns Cake',
     'Angelyn Cake',
     'angelyncakes',
+    'angelynscake.com',
     'angelyncakes.com',
     'custom cakes Manila',
     'custom cakes Metro Manila',
@@ -32,7 +33,7 @@ export const metadata = {
     'bespoke cakes Philippines',
     ...METRO_CITIES.map((c) => 'custom cakes ' + c),
   ],
-  alternates: { canonical: 'https://www.angelyncakes.com/' },
+  alternates: { canonical: 'https://www.angelynscake.com/' },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
   icons: { icon: [{ url: '/images/icon-sm.png', type: 'image/png' }] },
 };
@@ -58,7 +59,7 @@ export default function RootLayout({ children }) {
         <meta property="og:site_name" content="Angelyn's Cakes" />
         <meta property="og:locale" content="en_PH" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="og:url" content="https://www.angelyncakes.com/" />
+        <meta property="og:url" content="https://www.angelynscake.com/" />
         <meta property="og:image" content={OG_IMAGE} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
