@@ -9,8 +9,6 @@ export const metadata = {
   alternates: { canonical: 'https://www.angelynscake.com/faq' },
 };
 
-const pad = (i) => (i + 1 < 10 ? '0' : '') + (i + 1);
-
 export default function FaqPage() {
   return (
     <>
@@ -30,12 +28,10 @@ export default function FaqPage() {
             </p>
 
             <div className="fq-list">
-              {OCCASIONS.map((o, i) => (
+              {OCCASIONS.map((o) => (
                 <article className="fq-row" key={o.title}>
-                  <span className="fq-n">{pad(i)}</span>
                   <h2>{o.title}</h2>
                   <p>{o.text}</p>
-                  <span className="fq-ar" aria-hidden="true">→</span>
                 </article>
               ))}
             </div>
@@ -57,8 +53,8 @@ export default function FaqPage() {
                 <a href="/#contact" className="btn-cta fq-cta">Book a Consultation</a>
               </div>
               <div>
-                {FAQ.map((f) => (
-                  <details key={f.q}>
+                {FAQ.map((f, i) => (
+                  <details key={f.q} open={i === 0}>
                     <summary>{f.q}</summary>
                     <p>{f.a}</p>
                   </details>
@@ -67,7 +63,10 @@ export default function FaqPage() {
             </div>
 
             <div className="fq-bottom">
-              <a href="/" className="btn-ghost">← Back to Angelyn's Cakes</a>
+              <a href="/" className="fq-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+                Back to Angelyn's Cakes
+              </a>
             </div>
           </div>
         </section>
