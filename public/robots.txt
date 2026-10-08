@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.angelyncakes.com/sitemap.xml
+Sitemap: https://www.angelynscake.com/sitemap.xml

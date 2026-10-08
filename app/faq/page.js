@@ -7,6 +7,7 @@ export const metadata = {
   description:
     "Answers about ordering custom wedding, birthday, debut and christening cakes from Angelyn's Cakes (Angelyn Cakes, Angelyns Cake) in Pasay City. Serving all of Metro Manila.",
   alternates: { canonical: 'https://www.angelynscake.com/faq' },
+  openGraph: { url: 'https://www.angelynscake.com/faq' },
 };
 
 export default function FaqPage() {
