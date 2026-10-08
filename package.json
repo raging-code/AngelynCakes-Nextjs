@@ -9,7 +9,7 @@
     "start": "npx serve out",
     "css:build": "tailwindcss -i tailwind.input.css -o css/tailwind.min.css --minify",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postbuild": "node scripts/csp-hash.mjs"
+    "postbuild": "node scripts/csp-hash.mjs && node scripts/verify-seo.mjs"
   },
   "repository": {
     "type": "git",

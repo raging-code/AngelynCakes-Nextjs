@@ -1,5 +1,7 @@
 export const metadata = {
   title: "Page not found | Angelyn's Cakes",
+  alternates: {},
+  openGraph: {},
   robots: { index: false, follow: true },
 };
 
