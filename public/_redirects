@@ -4,3 +4,8 @@
 /home.html   /  301
 /index.html  /  301
 /index.php  /  301
+
+# /about has no real route (About is the #about section on the home page) ->
+# send visitors straight to that section instead of 404ing
+/about        /#about  301
+/about/       /#about  301
