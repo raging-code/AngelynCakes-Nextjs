@@ -10,6 +10,9 @@ import { useEffect, useRef } from 'react';
    - Reduced-motion / Data Saver / 2G users get the poster only. */
 const EARLY = "(function(){try{var v=document.getElementById('hero-vid');if(!v)return;v.muted=true;v.poster=window.matchMedia('(min-width: 768px)').matches?'/images/hero-poster-desktop.jpg':'/images/hero-poster-mobile.jpg';}catch(e){}})();";
 
+/* Visually hidden brand lead-in for the <h1> (crawlers + screen readers read it; layout is unchanged). */
+const HERO_BRAND = { position: 'absolute', width: 1, height: 1, margin: -1, padding: 0, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 };
+
 export default function Hero() {
   const vidRef = useRef(null);
   const sectionRef = useRef(null);
@@ -81,7 +84,7 @@ export default function Hero() {
       <script dangerouslySetInnerHTML={{ __html: EARLY }} />
       <div className="hero-overlay"></div>
       <div className="hero-content">
-        <h1 className="hero-headline">Cakes that<br/><em>command</em><br/>attention.</h1>
+        <h1 className="hero-headline"><span style={HERO_BRAND}>Angelyn's Cakes: custom cakes in Manila. </span>Cakes that<br/><em>command</em><br/>attention.</h1>
         <div className="hero-btns">
           <a href="#showroom" className="btn-cta" style={{ fontSize: '0.82rem', padding: '15px 30px' }}>Book a Consultation</a>
           <a

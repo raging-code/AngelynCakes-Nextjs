@@ -4,6 +4,7 @@ import { JSON_LD, METRO_CITIES } from '../lib/seo';           // custom styles e
 
 export const metadata = {
   metadataBase: new URL('https://www.angelynscake.com'),
+  applicationName: "Angelyn's Cakes",
   title: "Custom Wedding, Birthday & Debut Cakes in Manila | Angelyn's Cakes",
   description:
     "Angelyn's Cakes makes custom wedding cakes, birthday cakes, debut, christening, anniversary and corporate cakes in Manila and across Metro Manila. Visit our Pasay City showroom by appointment.",
